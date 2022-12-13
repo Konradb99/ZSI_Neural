@@ -1,0 +1,15 @@
+<div class="container">
+  <form [formGroup]="flowerForm">
+    <label for="sepalLength" class="label">Sepal Length</label>
+    <input type="number" matInput class="input" id="sepalLength" formControlName="sepalLength">
+    <label for="sepalWidth" class="label">Sepal Width</label>
+    <input type="number" matInput class="input" id="sepalWidth" formControlName="sepalWidth">
+    <label for="petalLength" class="label">Petal Length</label>
+    <input type="number" matInput class="input" id="petalLength" formControlName="petalLength">
+    <label for="petalWidth" class="label">Petal Width</label>
+    <input type="number" matInput class="input" id="petalWidth" formControlName="petalWidth">
+  </form>
+  <button class="button--primary" [disabled]="!flowerForm.valid" (click)="predictFlower()">
+        Sprawdź kwiatek
+  </button>
+</div>

@@ -20,7 +20,7 @@ namespace ZSI_Neural.Controllers
         }
 
         [HttpGet]
-        public async Task<string> PredictFlower([FromQuery]IrisPredict irisToPredict)
+        public async Task<ResponseString> PredictFlower([FromQuery]IrisPredict irisToPredict)
         {
             Console.WriteLine("\nBegin neural network back-propagation demo");
 
@@ -69,13 +69,13 @@ namespace ZSI_Neural.Controllers
                 switch (maxIndex)
                 {
                     case 0:
-                        return ReturnConstants.Setosa;
+                        return new ResponseString { response = ReturnConstants.Setosa };
                         break;
                     case 1:
-                        return ReturnConstants.Versicolor;
+                        return new ResponseString { response = ReturnConstants.Versicolor };
                         break;
                     case 2:
-                        return ReturnConstants.Virginica;
+                        return new ResponseString { response = ReturnConstants.Virginica };
                         break;
                 }
             }
