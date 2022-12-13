@@ -1,7 +1,9 @@
 ﻿using CarsNeuralNetwork.Handlers;
 using CarsNeuralNetwork.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 using ZSI_Core.Constants;
+using ZSI_Core.Models;
 using ZSI_NeuralNetwork.Services;
 
 namespace ZSI_Neural.Controllers
@@ -18,7 +20,7 @@ namespace ZSI_Neural.Controllers
         }
 
         [HttpGet]
-        public async void GetSimpleNetwork()
+        public async Task<string> PredictFlower([FromQuery]IrisPredict irisToPredict)
         {
             Console.WriteLine("\nBegin neural network back-propagation demo");
 
@@ -29,12 +31,15 @@ namespace ZSI_Neural.Controllers
             //      ICollection<CarDto> cars = await _dataService.GetTestData();
 
             double[][] trainData = await _fileService.GetDataSet();
-            double[][] testData = TestData.testDataArray;
+
+            double[] testDataSingle = new double[] { irisToPredict.sepalLength, irisToPredict.sepalWidth, irisToPredict.petalLength, irisToPredict.petalWidth };
+
+            double[][] testData = new double[1][] { testDataSingle };
 
             Console.WriteLine("Training data:");
             NeuralNetworkHandler.ShowMatrix(trainData, 4, 2, true);
             Console.WriteLine("Test data:");
-            NeuralNetworkHandler.ShowMatrix(testData, 4, 2, true);
+            NeuralNetworkHandler.ShowMatrix(testData, 1, 2, true);
 
             Console.WriteLine("Creating a " + numInput + "-" + numHidden +
               "-" + numOutput + " neural network");
@@ -57,20 +62,24 @@ namespace ZSI_Neural.Controllers
             for (int i = 0; i < testData.Length; i++)
             {
                 double[] y = NeuralNetworkHandler.ComputeOutputs(testData[i], nn);
-                NeuralNetworkHandler.ShowVector(y, 8, 3, true);
+
+                int maxIndex = Array.IndexOf(y, y.Max());
+
+                NeuralNetworkHandler.ShowVector(y, 3, 3, true);
+                switch (maxIndex)
+                {
+                    case 0:
+                        return ReturnConstants.Setosa;
+                        break;
+                    case 1:
+                        return ReturnConstants.Versicolor;
+                        break;
+                    case 2:
+                        return ReturnConstants.Virginica;
+                        break;
+                }
             }
-
-            //double trainAcc = NeuralNetworkHandler.Accuracy(trainData);
-            //Console.WriteLine("\nFinal accuracy on training data = " +
-            //  trainAcc.ToString("F4"));
-
-            //double testAcc = NeuralNetworkHandler.Accuracy(testData);
-            //Console.WriteLine("Final accuracy on test data     = " +
-            //  testAcc.ToString("F4"));
-
-            Console.WriteLine("\nEnd back-propagation demo\n");
-            Console.ReadLine();
-
+            throw new Exception("Error predicting flower type");
         }
     }
 }
