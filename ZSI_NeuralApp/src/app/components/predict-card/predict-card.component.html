@@ -1,12 +1,12 @@
 <div class="container">
   <form [formGroup]="flowerForm">
-    <label for="sepalLength" class="label">Sepal Length</label>
+    <label for="sepalLength" class="label">Sepal Length (cm)</label>
     <input type="number" matInput class="input" id="sepalLength" formControlName="sepalLength">
-    <label for="sepalWidth" class="label">Sepal Width</label>
+    <label for="sepalWidth" class="label">Sepal Width (cm)</label>
     <input type="number" matInput class="input" id="sepalWidth" formControlName="sepalWidth">
-    <label for="petalLength" class="label">Petal Length</label>
+    <label for="petalLength" class="label">Petal Length (cm)</label>
     <input type="number" matInput class="input" id="petalLength" formControlName="petalLength">
-    <label for="petalWidth" class="label">Petal Width</label>
+    <label for="petalWidth" class="label">Petal Width (cm)</label>
     <input type="number" matInput class="input" id="petalWidth" formControlName="petalWidth">
   </form>
   <button class="button--primary" [disabled]="!flowerForm.valid" (click)="predictFlower()">
